@@ -5,243 +5,430 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Studio Ardia</title>
 
- <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  :root {
-    /* logo */
-    --logo-width: min(520px, 62vw);
-
-    /* diagonal panels */
-    --left-top: 61%;
-    --left-bottom: 40%;
-    --right-top: 59%;
-    --right-bottom: 39%;
-
-    /* slash */
-    --slash-top: 49%;
-    --slash-left: 50.8%;
-    --slash-width: 2px;
-    --slash-height: 39px;
-    --slash-rotate: 23deg;
-  }
-
-  html,
-  body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    background: #ffffff;
-  }
-
-  body {
-    position: relative;
-  }
-
-  /* HOMEPAGE UNDERNEATH */
-  .homepage {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    background: #0f1724;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: clamp(28px, 4vw, 56px);
-    letter-spacing: 0.08em;
-  }
-
-  /* INTRO OVERLAY */
-  .intro {
-    position: fixed;
-    inset: 0;
-    z-index: 20;
-    background: transparent;
-    pointer-events: none;
-  }
-
-  /* Centered logo layer */
-  .logo-wrap {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    z-index: 23;
-    padding-inline: 24px;
-  }
-
-  .intro-logo {
-    width: var(--logo-width);
-    max-width: 90%;
-    height: auto;
-    opacity: 0;
-    transform: translateY(6px);
-    animation: logoFadeIn 1.8s ease forwards;
-  }
-
-  @keyframes logoFadeIn {
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
-  }
 
-  /* TWO WHITE PANELS */
-  .panel {
-    position: absolute;
-    inset: 0;
-    background: #ffffff;
-    will-change: transform;
-    transition: transform 1.25s cubic-bezier(0.77, 0, 0.18, 1);
-  }
-
-  .panel-left {
-    z-index: 21;
-    clip-path: polygon(0 0, var(--left-top) 0, var(--left-bottom) 100%, 0 100%);
-  }
-
-  .panel-right {
-    z-index: 21;
-    clip-path: polygon(var(--right-top) 0, 100% 0, 100% 100%, var(--right-bottom) 100%);
-  }
-
-  /* THIN SLASH LINE */
-  .slash-line {
-    position: absolute;
-    top: var(--slash-top);
-    left: var(--slash-left);
-    width: var(--slash-width);
-    height: 0;
-    background: #1c2d5a;
-    transform: translate(-50%, -50%) rotate(var(--slash-rotate));
-    transform-origin: center;
-    z-index: 24;
-    opacity: 0;
-    transition:
-      height 0.45s ease,
-      opacity 0.25s ease;
-  }
-
-  /* OPEN STATE */
-  .intro.open .slash-line {
-    height: var(--slash-height);
-    opacity: 1;
-  }
-
-  /* WEBSITE OPENS FROM THE SLASH */
-  .intro.split .panel-left {
-    transform: translateX(-100%) skewX(-2deg);
-  }
-
-  .intro.split .panel-right {
-    transform: translateX(100%) skewX(-2deg);
-  }
-
-  .intro.split .logo-wrap,
-  .intro.split .slash-line {
-    opacity: 0;
-    transition: opacity 0.28s ease;
-  }
-
-  /* optional subtle homepage entrance */
-  .homepage-content {
-    opacity: 0;
-    transform: scale(1.02);
-    animation: homeReveal 0.9s ease forwards;
-    animation-delay: 0.28s;
-  }
-
-  @keyframes homeReveal {
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  /* TABLET */
-  @media (max-width: 1024px) {
     :root {
-      --logo-width: min(430px, 68vw);
-
-      --left-top: 60.5%;
-      --left-bottom: 40.5%;
-      --right-top: 58.8%;
-      --right-bottom: 39.5%;
-
-      --slash-top: 49.2%;
-      --slash-left: 50.5%;
-      --slash-width: 1.8px;
-      --slash-height: 34px;
-      --slash-rotate: 22deg;
-    }
-  }
-
-  /* MOBILE */
-  @media (max-width: 768px) {
-    :root {
-      --logo-width: min(320px, 76vw);
-
-      /* slightly less aggressive diagonal for smaller screens */
-      --left-top: 59.5%;
-      --left-bottom: 42%;
-      --right-top: 58%;
-      --right-bottom: 40.5%;
-
-      /* slash tuned for mobile */
-      --slash-top: 49.4%;
-      --slash-left: 51%;
-      --slash-width: 1.5px;
-      --slash-height: 26px;
+      /* intro */
+      --logo-width: min(520px, 62vw);
+      --left-top: 61%;
+      --left-bottom: 40%;
+      --right-top: 59%;
+      --right-bottom: 39%;
+      --slash-top: 49%;
+      --slash-left: 50.8%;
+      --slash-width: 2px;
+      --slash-height: 39px;
       --slash-rotate: 23deg;
+
+      /* background */
+      --bg-position: center center;
+      --bg-size: cover;
+
+      /* text */
+      --headline-left: 4.2%;
+      --headline-bottom: 5%;
+      --headline-max-width: 980px;
+
+      --script-left: 47.8%;
+      --script-top: 50.2%;
+
+      --headline-color: #f4f2ee;
+      --script-color: #151515;
+
+      --headline-size: clamp(18px, 1.5vw, 30px);
+      --script-size: clamp(32px, 2.4vw, 54px);
+      --headline-weight: 500;
+      --headline-line-height: 1.06;
+      --headline-letter-spacing: -0.03em;
     }
 
-    .logo-wrap {
-      padding-inline: 18px;
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #0b4f94;
+    }
+
+    body {
+      position: relative;
+      user-select: none;
     }
 
     .homepage {
-      font-size: clamp(22px, 6vw, 40px);
-      letter-spacing: 0.06em;
-      text-align: center;
-      padding-inline: 20px;
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      background: url("assets/blue-mat.png") no-repeat var(--bg-position);
+      background-size: var(--bg-size);
     }
-  }
 
-  /* SMALL MOBILE */
-  @media (max-width: 480px) {
-    :root {
-      --logo-width: min(280px, 80vw);
+    .scene {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
 
-      --left-top: 58.8%;
-      --left-bottom: 43%;
-      --right-top: 57.2%;
-      --right-bottom: 41.2%;
+    .asset {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--w);
+      z-index: var(--z);
+      transform: translate(-50%, -50%) rotate(var(--r));
+      transform-origin: center center;
+      cursor: grab;
+      touch-action: none;
+      will-change: transform, left, top;
+    }
 
-      --slash-top: 49.5%;
-      --slash-left: 51.5%;
-      --slash-width: 1.4px;
-      --slash-height: 22px;
-      --slash-rotate: 22deg;
+    .asset.dragging {
+      cursor: grabbing;
+    }
+
+    .asset img {
+      display: block;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .shadow-soft img {
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.14));
+    }
+
+    .shadow-light img {
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
+    }
+
+    .script-word {
+      position: absolute;
+      left: var(--script-left);
+      top: var(--script-top);
+      transform: translate(-50%, -50%) rotate(-4deg);
+      z-index: 40;
+      color: var(--script-color);
+      font-size: var(--script-size);
+      line-height: 1;
+      font-family: "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive;
+      pointer-events: none;
+      text-shadow: 0 2px 6px rgba(255,255,255,0.08);
+    }
+
+    .headline {
+      position: absolute;
+      left: var(--headline-left);
+      bottom: var(--headline-bottom);
+      z-index: 41;
+      max-width: var(--headline-max-width);
+      color: var(--headline-color);
+      font-size: var(--headline-size);
+      font-weight: var(--headline-weight);
+      line-height: var(--headline-line-height);
+      letter-spacing: var(--headline-letter-spacing);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+      pointer-events: none;
+    }
+
+    /* INTRO */
+    .intro {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: transparent;
+      pointer-events: none;
     }
 
     .logo-wrap {
-      padding-inline: 14px;
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      z-index: 103;
+      padding-inline: 24px;
     }
-  }
-</style>
+
+    .intro-logo {
+      width: var(--logo-width);
+      max-width: 90%;
+      height: auto;
+      opacity: 0;
+      transform: translateY(6px);
+      animation: logoFadeIn 1.8s ease forwards;
+    }
+
+    @keyframes logoFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .panel {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      will-change: transform;
+      transition: transform 1.25s cubic-bezier(0.77, 0, 0.18, 1);
+    }
+
+    .panel-left {
+      z-index: 101;
+      clip-path: polygon(0 0, var(--left-top) 0, var(--left-bottom) 100%, 0 100%);
+    }
+
+    .panel-right {
+      z-index: 101;
+      clip-path: polygon(var(--right-top) 0, 100% 0, 100% 100%, var(--right-bottom) 100%);
+    }
+
+    .slash-line {
+      position: absolute;
+      top: var(--slash-top);
+      left: var(--slash-left);
+      width: var(--slash-width);
+      height: 0;
+      background: #1c2d5a;
+      transform: translate(-50%, -50%) rotate(var(--slash-rotate));
+      transform-origin: center;
+      z-index: 104;
+      opacity: 0;
+      transition:
+        height 0.45s ease,
+        opacity 0.25s ease;
+    }
+
+    .intro.open .slash-line {
+      height: var(--slash-height);
+      opacity: 1;
+    }
+
+    .intro.split .panel-left {
+      transform: translateX(-100%) skewX(-2deg);
+    }
+
+    .intro.split .panel-right {
+      transform: translateX(100%) skewX(-2deg);
+    }
+
+    .intro.split .logo-wrap,
+    .intro.split .slash-line {
+      opacity: 0;
+      transition: opacity 0.28s ease;
+    }
+
+    @media (max-width: 1200px) {
+      :root {
+        --headline-max-width: 760px;
+        --headline-left: 4.5%;
+        --headline-bottom: 7%;
+        --script-left: 49%;
+        --script-top: 50.5%;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      :root {
+        --logo-width: min(430px, 68vw);
+        --left-top: 60.5%;
+        --left-bottom: 40.5%;
+        --right-top: 58.8%;
+        --right-bottom: 39.5%;
+        --slash-top: 49.2%;
+        --slash-left: 50.5%;
+        --slash-width: 1.8px;
+        --slash-height: 34px;
+        --slash-rotate: 22deg;
+
+        --headline-size: clamp(28px, 3.2vw, 46px);
+        --script-size: clamp(28px, 2.5vw, 42px);
+        --headline-max-width: 680px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --logo-width: min(320px, 76vw);
+        --left-top: 59.5%;
+        --left-bottom: 42%;
+        --right-top: 58%;
+        --right-bottom: 40.5%;
+        --slash-top: 49.4%;
+        --slash-left: 51%;
+        --slash-width: 1.5px;
+        --slash-height: 26px;
+        --slash-rotate: 23deg;
+
+        --headline-left: 5%;
+        --headline-bottom: 6%;
+        --headline-max-width: 86vw;
+        --headline-size: clamp(20px, 5.2vw, 34px);
+        --script-size: clamp(24px, 5vw, 36px);
+        --script-left: 53%;
+        --script-top: 50%;
+      }
+
+      .logo-wrap {
+        padding-inline: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --logo-width: min(280px, 80vw);
+        --left-top: 58.8%;
+        --left-bottom: 43%;
+        --right-top: 57.2%;
+        --right-bottom: 41.2%;
+        --slash-top: 49.5%;
+        --slash-left: 51.5%;
+        --slash-width: 1.4px;
+        --slash-height: 22px;
+        --slash-rotate: 22deg;
+
+        --headline-size: clamp(8px, 0.5vw, 12px);
+        --headline-weight: 500;
+        --headline-letter-spacing: 0.06em;
+        --headline-line-height: 1.5;
+        opacity: 0.75;
+        --script-left: 55%;
+        --script-top: 49.5%;
+      }
+
+      .logo-wrap {
+        padding-inline: 14px;
+      }
+    }
+  </style>
 </head>
 <body>
 
   <main class="homepage">
-    <div class="homepage-content">Launching Soon</div>
+    <div class="scene">
+
+      <!-- FLOORPLANS -->
+      <div class="asset shadow-light" data-name="floorplan1"
+           style="--x: 58%; --y: 42%; --w: 610px; --r: 4deg; --z: 12;">
+        <img src="assets/floorplan1.png" alt="Floorplan 1">
+      </div>
+
+      <div class="asset shadow-light" data-name="floorplan2"
+           style="--x: 46.5%; --y: 65%; --w: 530px; --r: -5deg; --z: 11;">
+        <img src="assets/floorplan2.png" alt="Floorplan 2">
+      </div>
+
+      <!-- FOLDER STACK -->
+      <div class="asset shadow-soft" data-name="folder-back-1"
+           style="--x: 29%; --y: 27.5%; --w: 475px; --r: -6deg; --z: 20;">
+        <img src="assets/folder.png" alt="Folder back 1">
+      </div>
+
+      <div class="asset shadow-soft" data-name="folder-back-2"
+           style="--x: 36%; --y: 29.3%; --w: 475px; --r: 2deg; --z: 21;">
+        <img src="assets/folder.png" alt="Folder back 2">
+      </div>
+
+      <div class="asset shadow-soft" data-name="folder-back-3"
+           style="--x: 31.5%; --y: 35.4%; --w: 475px; --r: 5deg; --z: 22;">
+        <img src="assets/folder.png" alt="Folder back 3">
+      </div>
+
+      <div class="asset shadow-soft" data-name="studio-360-folder"
+           style="--x: 39.5%; --y: 40.4%; --w: 475px; --r: 1deg; --z: 24;">
+        <img src="assets/studio-360-folder.png" alt="Studio 360 Folder">
+      </div>
+
+      <!-- MATERIALS -->
+      <div class="asset shadow-light" data-name="material-sample1"
+           style="--x: 57%; --y: 10.4%; --w: 115px; --r: 8deg; --z: 16;">
+        <img src="assets/material-sample1.png" alt="Material sample 1">
+      </div>
+
+      <div class="asset shadow-light" data-name="material-sample2"
+           style="--x: 65%; --y: 10.5%; --w: 120px; --r: -8deg; --z: 15;">
+        <img src="assets/material-sample2.png" alt="Material sample 2">
+      </div>
+
+      <div class="asset shadow-light" data-name="material-sample3"
+           style="--x: 70.3%; --y: 10.4%; --w: 112px; --r: -6deg; --z: 14;">
+        <img src="assets/material-sample3.png" alt="Material sample 3">
+      </div>
+
+      <!-- COFFEE -->
+      <div class="asset shadow-soft" data-name="starbucks"
+           style="--x: 82.2%; --y: 24.8%; --w: 84px; --r: -26deg; --z: 17;">
+        <img src="assets/starbucks.png" alt="Starbucks Receipt">
+      </div>
+
+      <div class="asset shadow-soft" data-name="americano"
+           style="--x: 81.2%; --y: 12.2%; --w: 152px; --r: 0deg; --z: 18;">
+        <img src="assets/americano.png" alt="Americano">
+      </div>
+
+      <!-- PAPER CLIPS -->
+      <div class="asset shadow-light" data-name="paper-clip1"
+           style="--x: 16.6%; --y: 10.6%; --w: 36px; --r: -30deg; --z: 19;">
+        <img src="assets/paper-clip1.png" alt="Paper clip 1">
+      </div>
+
+      <div class="asset shadow-light" data-name="paper-clip2"
+           style="--x: 15.5%; --y: 14.8%; --w: 40px; --r: -8deg; --z: 19;">
+        <img src="assets/paper-clip2.png" alt="Paper clip 2">
+      </div>
+
+      <div class="asset shadow-light" data-name="paper-clip3"
+           style="--x: 18.2%; --y: 15.2%; --w: 40px; --r: -10deg; --z: 19;">
+        <img src="assets/paper-clip3.png" alt="Paper clip 3">
+      </div>
+
+      <!-- MARKERS -->
+      <div class="asset shadow-light" data-name="marker-left"
+           style="--x: 16.5%; --y: 58.5%; --w: 230px; --r: 33deg; --z: 23;">
+        <img src="assets/marker.png" alt="Marker left">
+      </div>
+
+      <div class="asset shadow-light" data-name="marker-right-top"
+           style="--x: 75%; --y: 45.8%; --w: 212px; --r: 7deg; --z: 23;">
+        <img src="assets/marker2.png" alt="Marker right top">
+      </div>
+
+      <div class="asset shadow-light" data-name="marker-right-bottom"
+           style="--x: 74.2%; --y: 55.3%; --w: 212px; --r: 34deg; --z: 23;">
+        <img src="assets/marker3.png" alt="Marker right bottom">
+      </div>
+
+      <!-- COMPASS -->
+      <div class="asset shadow-light" data-name="compass"
+           style="--x: 25%; --y: 72%; --w: 138px; --r: -10deg; --z: 22;">
+        <img src="assets/compass.png" alt="Compass">
+      </div>
+
+      <!-- RULER -->
+      <div class="asset shadow-light" data-name="ruler"
+           style="--x: 33.2%; --y: 84.8%; --w: 820px; --r: 9deg; --z: 13;">
+        <img src="assets/ruler.png" alt="Ruler">
+      </div>
+
+
+
+      <div class="headline">
+        We’re Drafting Something Special. Check back soon.
+      </div>
+
+    </div>
   </main>
 
   <div class="intro" id="intro">
@@ -256,21 +443,106 @@
   </div>
 
   <script>
-    const intro = document.getElementById('intro');
+    const intro = document.getElementById("intro");
 
     setTimeout(() => {
-      intro.classList.add('open');
+      intro.classList.add("open");
     }, 1700);
 
     setTimeout(() => {
-      intro.classList.add('split');
+      intro.classList.add("split");
     }, 2250);
 
     setTimeout(() => {
-      intro.style.display = 'none';
-      document.documentElement.style.overflow = 'auto';
-      document.body.style.overflow = 'auto';
+      intro.style.display = "none";
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
     }, 3800);
+
+    const assets = document.querySelectorAll(".asset");
+    let active = null;
+    let startPointerX = 0;
+    let startPointerY = 0;
+    let startXPercent = 0;
+    let startYPercent = 0;
+    let highestZ = 50;
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function getPercentFromStyle(el, propName, axis = "x", fallback = 50) {
+      const raw = getComputedStyle(el).getPropertyValue(propName).trim();
+
+      if (raw.endsWith("%")) return parseFloat(raw);
+
+      if (raw.endsWith("px")) {
+        const px = parseFloat(raw);
+        return axis === "x"
+          ? (px / window.innerWidth) * 100
+          : (px / window.innerHeight) * 100;
+      }
+
+      return fallback;
+    }
+
+    function beginDrag(e) {
+      active = e.currentTarget;
+      active.classList.add("dragging");
+      active.setPointerCapture?.(e.pointerId);
+
+      highestZ += 1;
+      active.style.setProperty("--z", highestZ);
+
+      startPointerX = e.clientX;
+      startPointerY = e.clientY;
+      startXPercent = getPercentFromStyle(active, "--x", "x");
+      startYPercent = getPercentFromStyle(active, "--y", "y");
+
+      document.addEventListener("pointermove", onDrag);
+      document.addEventListener("pointerup", endDrag);
+      document.addEventListener("pointercancel", endDrag);
+    }
+
+    function onDrag(e) {
+      if (!active) return;
+
+      const dx = e.clientX - startPointerX;
+      const dy = e.clientY - startPointerY;
+
+      const nextX = clamp(startXPercent + (dx / window.innerWidth) * 100, 0, 100);
+      const nextY = clamp(startYPercent + (dy / window.innerHeight) * 100, 0, 100);
+
+      active.style.setProperty("--x", `${nextX}%`);
+      active.style.setProperty("--y", `${nextY}%`);
+    }
+
+    function endDrag() {
+      if (!active) return;
+
+      const name = active.dataset.name || "asset";
+      const x = getComputedStyle(active).getPropertyValue("--x").trim();
+      const y = getComputedStyle(active).getPropertyValue("--y").trim();
+      const w = getComputedStyle(active).getPropertyValue("--w").trim();
+      const r = getComputedStyle(active).getPropertyValue("--r").trim();
+      const z = getComputedStyle(active).getPropertyValue("--z").trim();
+
+      console.log(
+`${name}
+style="--x: ${x}; --y: ${y}; --w: ${w}; --r: ${r}; --z: ${z};"`
+      );
+
+      active.classList.remove("dragging");
+      active = null;
+
+      document.removeEventListener("pointermove", onDrag);
+      document.removeEventListener("pointerup", endDrag);
+      document.removeEventListener("pointercancel", endDrag);
+    }
+
+    assets.forEach(asset => {
+      asset.addEventListener("pointerdown", beginDrag);
+    });
   </script>
 
 </body>
