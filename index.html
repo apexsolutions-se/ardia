@@ -1,488 +1,193 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Meet the Architect</title>
-  <meta name="description" content="Meet the architect — a studio focused on calm, precise spaces." />
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:opsz,wght@6..72,300;6..72,400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio Ardia</title>
 
   <style>
-    :root{
-      --bg:#fbfbfa;
-      --ink:#121212;
-      --muted: rgba(18,18,18,.62);
-      --hair: rgba(18,18,18,.12);
-      --hair2: rgba(18,18,18,.08);
-      --max: 1160px;
-      --ease: cubic-bezier(.2,.8,.2,1);
-    }
-
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      line-height:1.5;
-      letter-spacing: -0.01em;
-    }
-    a{ color: inherit; text-decoration:none; }
-
-    .wrap{
-      width: min(var(--max), calc(100% - 56px));
-      margin: 0 auto;
-    }
-
-    /* Subtle “paper” grain without blocks */
-    .paper{
-      position: fixed;
-      inset: 0;
-      pointer-events:none;
-      background:
-        radial-gradient(900px 520px at 22% 8%, rgba(0,0,0,.035), transparent 60%),
-        radial-gradient(760px 520px at 92% 26%, rgba(0,0,0,.03), transparent 55%);
-      mix-blend-mode: multiply;
-      opacity: .55;
-    }
-
-    /* NAV */
-    header{
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(251,251,250,.86);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--hair2);
-    }
-    .nav{
-      display:grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items:center;
-      padding: 18px 0;
-      gap: 18px;
-    }
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap: 3px;
-    }
-    .brand strong{
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-    .brand span{
-      font-size: 12px;
-      color: var(--muted);
-    }
-    nav{
-      display:flex;
-      gap: 18px;
-      justify-content:center;
-      align-items:center;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    nav a{
-      padding: 6px 2px;
-      border-bottom: 1px solid transparent;
-      transition: border-color .2s var(--ease), color .2s var(--ease);
-    }
-    nav a:hover{
-      color: var(--ink);
-      border-color: var(--hair);
-    }
-    .nav-right{
-      display:flex;
-      justify-content:flex-end;
-      align-items:center;
-      gap: 14px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .cta{
-      color: var(--ink);
-      border-bottom: 1px solid var(--ink);
-      padding-bottom: 2px;
-    }
-
-    /* HERO / LAYOUT */
-    main{ padding: 44px 0 70px; }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 34px;
-      align-items:start;
-    }
-
-    /* Left column: editorial */
-    .kicker{
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 0 0 14px;
-    }
-
-    h1{
-      font-family: Newsreader, Georgia, serif;
-      font-weight: 300;
-      letter-spacing: -0.03em;
-      line-height: 1.03;
-      margin: 0 0 18px;
-      font-size: clamp(42px, 5vw, 64px);
-    }
-
-    .intro{
-      font-size: 15px;
-      color: var(--muted);
-      max-width: 62ch;
-      margin: 0 0 22px;
-    }
-
-    /* “No boxes”: use rules + columns */
-    .rule{ height:1px; background: var(--hair2); margin: 22px 0; }
-
-    .two-col{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px 26px;
-    }
-
-    .item{
-      display:flex;
-      flex-direction:column;
-      gap: 6px;
-      padding: 10px 0; /* not a box—just breathing space */
-      border-bottom: 1px solid var(--hair2);
-    }
-
-    .item .label{
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .item .value{
-      font-size: 13px;
-      color: var(--ink);
-    }
-
-    .links{
-      display:flex;
-      gap: 18px;
-      flex-wrap:wrap;
-      margin-top: 18px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .links a{
-      border-bottom: 1px solid var(--hair);
-      padding-bottom: 2px;
-      transition: border-color .2s var(--ease), color .2s var(--ease);
-    }
-    .links a:hover{
-      color: var(--ink);
-      border-color: var(--ink);
-    }
-
-    /* Right column: photo + caption */
-    figure{
+    * {
       margin: 0;
-      display:grid;
-      gap: 14px;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    .photo{
-      width: 100%;
-      aspect-ratio: 3 / 5;
-      overflow: hidden;
-      background: linear-gradient(180deg, rgba(0,0,0,.03), rgba(0,0,0,.01));
-      border-left: 1px solid var(--hair2);
-      padding-left: 16px; /* architectural offset */
-    }
-
-    .photo img{
+    html, body {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      display:block;
-      filter: contrast(1.02) saturate(0.98);
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
     }
 
-    figcaption{
-      display:grid;
-      gap: 6px;
-      padding-left: 16px;
-      border-left: 1px solid var(--hair2);
-    }
-    .name{
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-    .role{
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .note{
-      font-size: 12px;
-      color: rgba(18,18,18,.52);
-      max-width: 52ch;
+    body {
+      position: relative;
     }
 
-    /* Bottom: approach as a “schedule” style list (no boxes) */
-    .approach{
-      margin-top: 46px;
-      border-top: 1px solid var(--hair2);
-      padding-top: 26px;
-      display:grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 24px;
-      align-items:start;
-    }
-    .approach h2{
-      margin: 0;
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 600;
-    }
-    .steps{
-      display:grid;
-      gap: 0;
-      border-left: 1px solid var(--hair2);
-      padding-left: 16px;
-    }
-    .step{
-      display:grid;
-      grid-template-columns: 74px 1fr;
-      gap: 18px;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--hair2);
-    }
-    .step .n{
-      font-family: Newsreader, Georgia, serif;
-      font-size: 22px;
-      font-weight: 300;
-      color: rgba(18,18,18,.70);
-      letter-spacing: -0.02em;
-    }
-    .step .t{
-      margin: 0;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .step .d{
-      margin: 6px 0 0;
-      font-size: 13px;
-      color: var(--muted);
-      max-width: 72ch;
+    /* HOMEPAGE UNDERNEATH */
+    .homepage {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: #0f1724;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: clamp(28px, 4vw, 56px);
+      letter-spacing: 0.08em;
     }
 
-    footer{
-      margin-top: 56px;
-      border-top: 1px solid var(--hair2);
-      padding: 22px 0 36px;
-      color: rgba(18,18,18,.52);
-      font-size: 12px;
-      display:flex;
-      justify-content:space-between;
-      gap: 14px;
-      flex-wrap:wrap;
+    /* INTRO OVERLAY */
+    .intro {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      background: transparent;
+      pointer-events: none;
     }
 
-    /* Responsive */
-    @media (max-width: 980px){
-      .wrap{ width: min(var(--max), calc(100% - 34px)); }
-      .nav{ grid-template-columns: 1fr auto; }
-      .nav-right{ display:none; }
-      .grid{ grid-template-columns: 1fr; gap: 24px; }
-      .photo, figcaption, .steps{ border-left: 0; padding-left: 0; }
-      .photo{ padding-left: 0; }
-      .approach{ grid-template-columns: 1fr; }
-      .step{ grid-template-columns: 52px 1fr; }
-      nav{ justify-content:flex-end; }
+    /* Centered logo layer */
+    .logo-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      z-index: 23;
+    }
+
+    .intro-logo {
+      width: min(520px, 62vw);
+      max-width: 90%;
+      height: auto;
+      opacity: 0;
+      transform: translateY(6px);
+      animation: logoFadeIn 1.8s ease forwards;
+    }
+
+    @keyframes logoFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* TWO WHITE PANELS */
+    .panel {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      will-change: transform;
+      transition: transform 1.25s cubic-bezier(0.77, 0, 0.18, 1);
+    }
+
+    /*
+      These two shapes create the diagonal cut.
+      Adjust these 4 values if needed:
+      - 54.8%
+      - 57.6%
+      They control where the diagonal starts/ends.
+    */
+.panel-left {
+  z-index: 21;
+  clip-path: polygon(0 0, 61% 0, 40% 100%, 0 100%);
+}
+
+.panel-right {
+  z-index: 21;
+  clip-path: polygon(59% 0, 100% 0, 100% 100%, 39% 100%);
+}
+
+    /* THIN SLASH LINE */
+    .slash-line {
+      position: absolute;
+      top: 49%;
+      left: 50.8%;
+      width: 2px;
+      height: 0;
+      background: #1c2d5a;
+      transform: translate(-50%, -50%) rotate(23deg);
+      transform-origin: center;
+      z-index: 24;
+      opacity: 0;
+      transition:
+        height 0.45s ease,
+        opacity 0.25s ease;
+    }
+
+    /* OPEN STATE */
+    .intro.open .slash-line {
+      height: 39px;
+      opacity: 1;
+    }
+
+    /* WEBSITE OPENS FROM THE SLASH */
+    .intro.split .panel-left {
+      transform: translateX(-100%) skewX(-2deg);
+    }
+
+    .intro.split .panel-right {
+      transform: translateX(100%) skewX(-2deg);
+    }
+
+    .intro.split .logo-wrap,
+    .intro.split .slash-line {
+      opacity: 0;
+      transition: opacity 0.28s ease;
+    }
+
+    /* optional subtle homepage entrance */
+    .homepage-content {
+      opacity: 0;
+      transform: scale(1.02);
+      animation: homeReveal 0.9s ease forwards;
+      animation-delay: 0.28s;
+    }
+
+    @keyframes homeReveal {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
   </style>
 </head>
-
 <body>
-  <div class="paper" aria-hidden="true"></div>
 
-  <header>
-    <div class="wrap nav">
-      <a class="brand" href="#">
-        <strong>Studio Ardia</strong>
-        <span>Architecture Studio</span>
-      </a>
-
-      <nav aria-label="Primary">
-        <a href="#meet">Meet</a>
-        <a href="#approach">Approach</a>
-        <a href="#contact">Contact</a>
-      </nav>
-
-      <div class="nav-right">
-        <a class="cta" href="#contact">Start a project</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="wrap" id="meet">
-    <section class="grid" aria-label="Meet the Architect layout">
-      <!-- LEFT -->
-      <div>
-        <p class="kicker">Meet the Architect</p>
-        <h1>Spaces that feel inevitable.</h1>
-        <p class="intro">
-          We design calm, modern environments through proportion, restraint, and buildable detail.
-          The goal is clarity—spaces that read cleanly and live beautifully over time.
-        </p>
-
-        <div class="rule" aria-hidden="true"></div>
-
-        <div class="two-col" aria-label="Key information">
-          <div class="item">
-            <span class="label">Location</span>
-            <span class="value">Bangkok • Remote Worldwide</span>
-          </div>
-          <div class="item">
-            <span class="label">Focus</span>
-            <span class="value">Residential • Interiors • Renovation</span>
-          </div>
-          <div class="item">
-            <span class="label">Services</span>
-            <span class="value">Concept • Drawings • Site Coordination</span>
-          </div>
-          <div class="item">
-            <span class="label">Availability</span>
-            <span class="value">New projects: limited openings</span>
-          </div>
-        </div>
-
-        <div class="links" aria-label="Primary actions">
-          <a href="#contact">Request a consultation</a>
-          <a href="#approach">View process</a>
-          <a href="#">Download portfolio (PDF)</a>
-        </div>
-      </div>
-
-      <!-- RIGHT -->
-      <figure aria-label="Architect photo">
-        <div class="photo">
-          <!-- Image slot (from your assets folder): -->
-          <img src="assets/diane.jpg" alt="Architect portrait">
-        </div>
-
-        <figcaption>
-          <div class="name">Diane Imperial</div>
-          <div class="role">Principal Architect</div>
-          <div class="note">
-            Detail-driven practice focused on modern homes and small commercial spaces.
-            Materials are chosen for honesty, longevity, and quiet presence.
-          </div>
-        </figcaption>
-      </figure>
-    </section>
-
-    <section class="approach" id="approach" aria-label="Approach">
-      <h2>Approach</h2>
-
-      <div class="steps">
-        <div class="step">
-          <div class="n">01</div>
-          <div>
-            <p class="t">Brief + constraints</p>
-            <p class="d">We align on scope, budget, timeline, and non-negotiables. Constraints guide decisions early.</p>
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="n">02</div>
-          <div>
-            <p class="t">Concept + clarity</p>
-            <p class="d">Plan, light, and material are refined into a clear system, so the design stays coherent.</p>
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="n">03</div>
-          <div>
-            <p class="t">Documentation</p>
-            <p class="d">Tight drawings and coordinated details that builders can execute without guesswork.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" style="margin-top:46px; border-top:1px solid var(--hair2); padding-top:26px;">
-      <div style="display:grid; gap:10px;">
-        <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px; flex-wrap:wrap;">
-          <div style="font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); font-weight:600;">
-            Contact
-          </div>
-          <div style="font-size:12px; color:rgba(18,18,18,.52);">
-            Response within 1–2 business days
-          </div>
-        </div>
-
-        <!-- No “box” styling: plain inputs with hairline rules -->
-        <form style="display:grid; gap:12px; max-width: 680px;">
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-            <label style="display:grid; gap:6px;">
-              <span style="font-size:12px; color:rgba(18,18,18,.60);">Name</span>
-              <input required name="name" type="text" placeholder="Your name"
-                style="height:44px; border:1px solid var(--hair); background:transparent; padding:0 12px; outline:none;">
-            </label>
-            <label style="display:grid; gap:6px;">
-              <span style="font-size:12px; color:rgba(18,18,18,.60);">Email</span>
-              <input required name="email" type="email" placeholder="you@domain.com"
-                style="height:44px; border:1px solid var(--hair); background:transparent; padding:0 12px; outline:none;">
-            </label>
-          </div>
-
-          <label style="display:grid; gap:6px;">
-            <span style="font-size:12px; color:rgba(18,18,18,.60);">Project note</span>
-            <textarea required name="message" rows="5" placeholder="Location, scope, timeline, and budget range."
-              style="border:1px solid var(--hair); background:transparent; padding:10px 12px; outline:none; resize:vertical;"></textarea>
-          </label>
-
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-top:4px;">
-            <div style="font-size:12px; color:rgba(18,18,18,.52);">
-              By sending, you agree to be contacted about your inquiry.
-            </div>
-            <button type="submit"
-              style="border:1px solid var(--ink); background:transparent; padding:10px 14px; font-size:13px; cursor:pointer;">
-              Send inquiry
-            </button>
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <footer>
-      <div>© <span id="year"></span> Studio Ardia</div>
-      <div style="display:flex; gap:14px; flex-wrap:wrap;">
-        <a href="#" style="border-bottom:1px solid var(--hair); padding-bottom:2px;">Instagram</a>
-        <a href="#" style="border-bottom:1px solid var(--hair); padding-bottom:2px;">Email</a>
-        <a href="#" style="border-bottom:1px solid var(--hair); padding-bottom:2px;">Privacy</a>
-      </div>
-    </footer>
+  <main class="homepage">
+    <div class="homepage-content">Launching Soon</div>
   </main>
 
+  <div class="intro" id="intro">
+    <div class="panel panel-left"></div>
+    <div class="panel panel-right"></div>
+
+    <div class="logo-wrap">
+      <img src="assets/studio-ardia-logo.png" alt="Studio Ardia Logo" class="intro-logo" />
+    </div>
+
+    <div class="slash-line"></div>
+  </div>
+
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    const intro = document.getElementById('intro');
+
+    setTimeout(() => {
+      intro.classList.add('open');
+    }, 1700);
+
+    setTimeout(() => {
+      intro.classList.add('split');
+    }, 2250);
+
+    setTimeout(() => {
+      intro.style.display = 'none';
+      document.documentElement.style.overflow = 'auto';
+      document.body.style.overflow = 'auto';
+    }, 3800);
   </script>
+
 </body>
 </html>
