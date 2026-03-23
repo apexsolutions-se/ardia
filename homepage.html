@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio Ardia</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #fff;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    :root {
+      /* --------------------------
+         INTRO
+      -------------------------- */
+      --intro-logo-width: min(520px, 62vw);
+      --left-top: 61%;
+      --left-bottom: 40%;
+      --right-top: 59%;
+      --right-bottom: 39%;
+      --slash-top: 49%;
+      --slash-left: 50.8%;
+      --slash-width: 2px;
+      --slash-height: 39px;
+      --slash-rotate: 23deg;
+
+      /* --------------------------
+         GLOBAL / HERO
+      -------------------------- */
+      --nav-color: #2f2d77;
+      --text-dark: #181818;
+      --text-light: rgba(255, 255, 255, 0.9);
+
+      --page-padding: clamp(22px, 2.4vw, 42px);
+      --logo-width: clamp(180px, 15vw, 255px);
+
+      --nav-size: clamp(12px, 0.85vw, 15px);
+      --nav-gap: clamp(16px, 2vw, 36px);
+
+      --timeless-size: clamp(52px, 9.5vw, 170px);
+      --spatial-size: clamp(52px, 9.5vw, 170px);
+      --design-size: clamp(52px, 9.5vw, 170px);
+
+      --timeless-top: 14%;
+      --timeless-left: 4%;
+
+      --spatial-top: 45%;
+      --spatial-left: 35%;
+
+      --design-bottom: 10%;
+      --design-right: 5.5%;
+
+      --scene-height: 320vh;
+      --word-duration: 0.75s;
+      --word-ease: cubic-bezier(0.22, 0.8, 0.2, 1);
+
+      /* --------------------------
+         SERVICES
+      -------------------------- */
+      --services-bg: #ece8e8;
+      --services-text: #262626;
+      --services-scene-height: 260vh;
+
+      --services-lead-size: clamp(18px, 1.8vw, 25px);
+      --services-word-size: clamp(28px, 3vw, 44px);
+      --services-copy-size: clamp(18px, 1.9vw, 24px);
+
+      --services-word-slot-width: 510px;
+      --services-button-size: 10px;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .scroll-scene {
+      position: relative;
+      height: var(--scene-height);
+    }
+
+    .hero {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      min-height: 760px;
+      overflow: hidden;
+      isolation: isolate;
+      background: #dbe8f5;
+    }
+
+    .hero-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    .hero-bg { z-index: 1; }
+    .hero-overlay-1 { z-index: 3; }
+    .hero-overlay-2 { z-index: 5; }
+
+    .topbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: var(--page-padding);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      z-index: 10;
+    }
+
+    .logo img {
+      width: var(--logo-width);
+      transform: translateY(-50px);
+      height: auto;
+      display: block;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: var(--nav-gap);
+      padding-top: 10px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      text-transform: uppercase;
+      color: var(--nav-color);
+      font-size: var(--nav-size);
+      letter-spacing: 0.34em;
+      font-weight: 500;
+    }
+
+    .nav a.active {
+      font-weight: 700;
+    }
+
+    .hero-text-slot {
+      position: absolute;
+      display: inline-grid;
+      overflow: hidden;
+      white-space: nowrap;
+      line-height: 0.88;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      font-weight: 800;
+      pointer-events: none;
+      user-select: none;
+      height: 0.95em;
+    }
+
+    .hero-text-slot .word {
+      grid-area: 1 / 1;
+      display: block;
+      will-change: transform;
+      transition: transform var(--word-duration) var(--word-ease);
+    }
+
+    .hero-text-slot .current {
+      transform: translateY(0%);
+    }
+
+    .hero-text-slot .next {
+      transform: translateY(-112%);
+    }
+
+    .hero-text-slot.is-swapped .current {
+      transform: translateY(112%);
+    }
+
+    .hero-text-slot.is-swapped .next {
+      transform: translateY(0%);
+    }
+
+    .timeless-slot {
+      top: var(--timeless-top);
+      left: var(--timeless-left);
+      font-size: var(--timeless-size);
+      color: var(--text-dark);
+      z-index: 2;
+    }
+
+    .spatial-slot {
+      top: var(--spatial-top);
+      left: var(--spatial-left);
+      font-size: var(--spatial-size);
+      color: var(--text-light);
+      z-index: 4;
+    }
+
+    .design-slot {
+      right: var(--design-right);
+      bottom: var(--design-bottom);
+      font-size: var(--design-size);
+      color: var(--text-dark);
+      z-index: 6;
+      text-align: right;
+      justify-items: end;
+    }
+
+    /* =========================
+       SERVICES
+    ========================= */
+
+    .services-scene {
+      position: relative;
+      height: var(--services-scene-height);
+      background: var(--services-bg);
+    }
+
+    .services-panel {
+      position: sticky;
+      top: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: var(--services-bg);
+      overflow: hidden;
+    }
+
+    .services-inner {
+      width: min(1080px, 86vw);
+      margin: 0 auto;
+      color: var(--services-text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .services-lead-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .services-lead {
+      font-size: var(--services-lead-size);
+      line-height: 1.4;
+      letter-spacing: 0.003em;
+      font-weight: 400;
+    }
+
+    .services-lead strong {
+      font-weight: 800;
+    }
+
+    .services-line-2 {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: nowrap;
+    }
+
+    .services-line-text {
+      font-size: var(--services-lead-size);
+      line-height: 1.4;
+      font-weight: 400;
+      letter-spacing: 0.003em;
+      white-space: nowrap;
+    }
+
+    .services-word-slot {
+      position: relative;
+      display: inline-grid;
+      overflow: hidden;
+      height: 1.04em;
+      line-height: 0.95;
+      white-space: nowrap;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-align: left;
+      justify-items: start;
+      --service-step: 0;
+    }
+
+    .services-word-slot .service-word {
+      grid-area: 1 / 1;
+      display: block;
+      justify-self: start;
+      transform: translateY(calc((var(--service-step) - var(--i)) * 112%));
+      transition: transform 0.75s cubic-bezier(0.22, 0.8, 0.2, 1);
+      will-change: transform;
+    }
+
+    .inline-word {
+      width: var(--services-word-slot-width);
+      font-size: var(--services-word-size);
+    }
+
+    .services-copy {
+      max-width: 980px;
+      font-size: var(--services-copy-size);
+      line-height: 1.45;
+      letter-spacing: 0.003em;
+      font-weight: 400;
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    .services-button {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-width: 176px;
+      padding: 11px 16px 11px 18px;
+      border: 1.2px solid #2a2a2a;
+      border-radius: 999px;
+      background: transparent;
+      color: #1f1f1f;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      font-size: var(--services-button-size);
+      line-height: 1;
+    }
+
+    .services-button-arrow {
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: 0;
+      transform: translateY(-1px);
+    }
+
+    /* =========================
+       INTRO OVERLAY
+    ========================= */
+
+    .intro {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .intro.hidden {
+      display: none;
+    }
+
+    .intro-logo-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      z-index: 203;
+      padding-inline: 24px;
+    }
+
+    .intro-logo {
+      width: var(--intro-logo-width);
+      max-width: 90%;
+      height: auto;
+      opacity: 0;
+      transform: translateY(6px);
+      animation: logoFadeIn 1.8s ease forwards;
+    }
+
+    @keyframes logoFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .panel {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      will-change: transform;
+      transition: transform 1.25s cubic-bezier(0.77, 0, 0.18, 1);
+    }
+
+    .panel-left {
+      z-index: 201;
+      clip-path: polygon(0 0, var(--left-top) 0, var(--left-bottom) 100%, 0 100%);
+    }
+
+    .panel-right {
+      z-index: 201;
+      clip-path: polygon(var(--right-top) 0, 100% 0, 100% 100%, var(--right-bottom) 100%);
+    }
+
+    .slash-line {
+      position: absolute;
+      top: var(--slash-top);
+      left: var(--slash-left);
+      width: var(--slash-width);
+      height: 0;
+      background: #1c2d5a;
+      transform: translate(-50%, -50%) rotate(var(--slash-rotate));
+      transform-origin: center;
+      z-index: 204;
+      opacity: 0;
+      transition:
+        height 0.45s ease,
+        opacity 0.25s ease;
+    }
+
+    .intro.open .slash-line {
+      height: var(--slash-height);
+      opacity: 1;
+    }
+
+    .intro.split .panel-left {
+      transform: translateX(-100%) skewX(-2deg);
+    }
+
+    .intro.split .panel-right {
+      transform: translateX(100%) skewX(-2deg);
+    }
+
+    .intro.split .intro-logo-wrap,
+    .intro.split .slash-line {
+      opacity: 0;
+      transition: opacity 0.28s ease;
+    }
+
+    /* =========================
+       TABLET
+    ========================= */
+
+    @media (max-width: 1100px) {
+      :root {
+        --timeless-top: 20%;
+        --timeless-left: 3.5%;
+        --spatial-top: 48%;
+        --spatial-left: 28%;
+        --design-bottom: 14%;
+        --design-right: 4%;
+
+        --services-lead-size: clamp(17px, 1.9vw, 22px);
+        --services-word-size: clamp(24px, 2.7vw, 36px);
+        --services-copy-size: clamp(17px, 1.9vw, 22px);
+        --services-word-slot-width: 360px;
+
+        --intro-logo-width: min(430px, 68vw);
+        --left-top: 60.5%;
+        --left-bottom: 40.5%;
+        --right-top: 58.8%;
+        --right-bottom: 39.5%;
+        --slash-top: 49.2%;
+        --slash-left: 50.5%;
+        --slash-width: 1.8px;
+        --slash-height: 34px;
+        --slash-rotate: 22deg;
+      }
+
+      .nav a {
+        letter-spacing: 0.24em;
+      }
+
+      .services-inner {
+        width: min(92vw, 940px);
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 768px) {
+      :root {
+        --logo-width: 170px;
+        --timeless-size: clamp(54px, 14vw, 88px);
+        --spatial-size: clamp(42px, 10vw, 70px);
+        --design-size: clamp(48px, 12vw, 82px);
+
+        --timeless-top: 19%;
+        --timeless-left: 4%;
+        --spatial-top: 47%;
+        --spatial-left: 18%;
+        --design-bottom: 13%;
+        --design-right: 4%;
+        --scene-height: 280vh;
+
+        --services-scene-height: 230vh;
+        --services-lead-size: clamp(16px, 4.3vw, 21px);
+        --services-word-size: clamp(22px, 5.6vw, 30px);
+        --services-copy-size: clamp(16px, 4.2vw, 21px);
+        --services-word-slot-width: min(260px, 52vw);
+
+        --intro-logo-width: min(320px, 76vw);
+        --left-top: 59.5%;
+        --left-bottom: 42%;
+        --right-top: 58%;
+        --right-bottom: 40.5%;
+        --slash-top: 49.4%;
+        --slash-left: 51%;
+        --slash-width: 1.5px;
+        --slash-height: 26px;
+        --slash-rotate: 23deg;
+      }
+
+      .hero {
+        min-height: 700px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        gap: 10px 18px;
+        padding-top: 0;
+      }
+
+      .nav a {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+      }
+
+      .services-inner {
+        width: min(92vw, 680px);
+        gap: 20px;
+      }
+
+      .services-line-2 {
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .services-line-text {
+        white-space: normal;
+      }
+
+      .services-copy {
+        max-width: 100%;
+      }
+
+      .services-button {
+        min-width: unset;
+        padding: 10px 14px 10px 16px;
+        letter-spacing: 0.22em;
+        font-size: 10px;
+      }
+
+      .services-button-arrow {
+        font-size: 20px;
+      }
+
+      .intro-logo-wrap {
+        padding-inline: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --intro-logo-width: min(280px, 80vw);
+        --left-top: 58.8%;
+        --left-bottom: 43%;
+        --right-top: 57.2%;
+        --right-bottom: 41.2%;
+        --slash-top: 49.5%;
+        --slash-left: 51.5%;
+        --slash-width: 1.4px;
+        --slash-height: 22px;
+        --slash-rotate: 22deg;
+      }
+
+      .intro-logo-wrap {
+        padding-inline: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="scroll-scene" id="scrollScene">
+    <section class="hero">
+
+      <img
+        src="assets/homepage/hero-image.svg"
+        alt="Studio Ardia featured project"
+        class="hero-layer hero-bg"
+      >
+
+      <div class="hero-text-slot timeless-slot" id="timelessSlot" aria-hidden="true">
+        <span class="word current">TIMELESS</span>
+        <span class="word next">BUILD</span>
+      </div>
+
+      <img
+        src="assets/homepage/hero-overlay-1.svg"
+        alt=""
+        class="hero-layer hero-overlay-1"
+        aria-hidden="true"
+      >
+
+      <div class="hero-text-slot spatial-slot" id="spatialSlot" aria-hidden="true">
+        <span class="word current">SPATIAL</span>
+        <span class="word next">WITH</span>
+      </div>
+
+      <img
+        src="assets/homepage/hero-overlay-2.svg"
+        alt=""
+        class="hero-layer hero-overlay-2"
+        aria-hidden="true"
+      >
+
+      <div class="hero-text-slot design-slot" id="designSlot" aria-hidden="true">
+        <span class="word current">DESIGN</span>
+        <span class="word next">PRECISION</span>
+      </div>
+
+      <header class="topbar">
+        <a href="#" class="logo" aria-label="Studio Ardia home">
+          <img src="assets/studio-ardia-logo.png" alt="Studio Ardia logo">
+        </a>
+
+        <nav class="nav">
+          <a href="#" class="active">Home</a>
+          <a href="#">Practice</a>
+          <a href="#">Project</a>
+          <a href="#">Connect</a>
+        </nav>
+      </header>
+
+    </section>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services-scene" id="servicesScene">
+    <div class="services-panel">
+      <div class="services-inner">
+
+        <div class="services-lead-wrap">
+          <p class="services-lead">
+            <strong>STUDIO / ARDIA</strong> is a Philippine-based architecture and firm
+          </p>
+
+          <div class="services-line-2">
+            <span class="services-line-text">specializing in bespoke</span>
+
+            <span class="services-word-slot inline-word" id="servicesWordSlot" aria-hidden="true">
+              <span class="service-word" style="--i: 0;">RESIDENTIAL.</span>
+              <span class="service-word" style="--i: 1;">COMMERCIAL.</span>
+              <span class="service-word" style="--i: 2;">HOSPITALITY.</span>
+              <span class="service-word" style="--i: 3;">FIT-OUT PROJECTS.</span>
+            </span>
+          </div>
+        </div>
+
+        <p class="services-copy">
+          Delivering sustainability, functional and timeless spaces through a clear and collaborative design process.
+        </p>
+
+        <a href="#" class="services-button">
+          <span>MORE ABOUT US</span>
+          <span class="services-button-arrow">→</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <div class="intro" id="intro">
+    <div class="panel panel-left"></div>
+    <div class="panel panel-right"></div>
+
+    <div class="intro-logo-wrap">
+      <img src="assets/studio-ardia-logo.png" alt="Studio Ardia Logo" class="intro-logo">
+    </div>
+
+    <div class="slash-line"></div>
+  </div>
+
+  <script>
+    const scene = document.getElementById('scrollScene');
+    const timelessSlot = document.getElementById('timelessSlot');
+    const spatialSlot = document.getElementById('spatialSlot');
+    const designSlot = document.getElementById('designSlot');
+
+    const servicesScene = document.getElementById('servicesScene');
+    const servicesWordSlot = document.getElementById('servicesWordSlot');
+
+    const intro = document.getElementById('intro');
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function updateHeroWords() {
+      const rect = scene.getBoundingClientRect();
+      const maxScroll = scene.offsetHeight - window.innerHeight;
+      const passed = clamp(-rect.top, 0, maxScroll);
+      const progress = maxScroll > 0 ? passed / maxScroll : 0;
+
+      timelessSlot.classList.toggle('is-swapped', progress >= 0.18);
+      spatialSlot.classList.toggle('is-swapped', progress >= 0.46);
+      designSlot.classList.toggle('is-swapped', progress >= 0.74);
+    }
+
+    function updateServicesWords() {
+      const rect = servicesScene.getBoundingClientRect();
+      const maxScroll = servicesScene.offsetHeight - window.innerHeight;
+      const passed = clamp(-rect.top, 0, maxScroll);
+      const progress = maxScroll > 0 ? passed / maxScroll : 0;
+
+      let step = 0;
+
+      if (progress >= 0.72) {
+        step = 3;
+      } else if (progress >= 0.48) {
+        step = 2;
+      } else if (progress >= 0.22) {
+        step = 1;
+      }
+
+      servicesWordSlot.style.setProperty('--service-step', step);
+    }
+
+    function updateAllAnimations() {
+      updateHeroWords();
+      updateServicesWords();
+    }
+
+    /* intro timing */
+    window.addEventListener('load', () => {
+      document.documentElement.style.overflowX = 'hidden';
+      document.body.style.overflowX = 'hidden';
+
+      setTimeout(() => {
+        intro.classList.add('open');
+      }, 1700);
+
+      setTimeout(() => {
+        intro.classList.add('split');
+      }, 2250);
+
+      setTimeout(() => {
+        intro.classList.add('hidden');
+        document.documentElement.style.overflowY = 'auto';
+        document.body.style.overflowY = 'auto';
+      }, 3800);
+
+      updateAllAnimations();
+    });
+
+    window.addEventListener('scroll', updateAllAnimations, { passive: true });
+    window.addEventListener('resize', updateAllAnimations);
+  </script>
+
+</body>
+</html>
