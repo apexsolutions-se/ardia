@@ -26,12 +26,11 @@
     }
 
     :root {
-      /* viewport */
       --vh: 1vh;
 
-      /* --------------------------
+      /* =========================
          INTRO
-      -------------------------- */
+      ========================= */
       --intro-logo-width: min(520px, 62vw);
       --left-top: 61%;
       --left-bottom: 40%;
@@ -43,9 +42,9 @@
       --slash-height: 39px;
       --slash-rotate: 23deg;
 
-      /* --------------------------
+      /* =========================
          GLOBAL / HERO
-      -------------------------- */
+      ========================= */
       --nav-color: #2f2d77;
       --text-dark: #181818;
       --text-light: rgba(255, 255, 255, 0.92);
@@ -62,46 +61,74 @@
 
       --timeless-top: 14%;
       --timeless-left: 4%;
-
       --spatial-top: 45%;
       --spatial-left: 35%;
-
       --design-bottom: 10%;
       --design-right: 5.5%;
 
       --hero-scene-multiplier: 2.6;
       --services-scene-multiplier: 2.2;
+      --projects-scene-multiplier: 2.2;
 
       --word-duration: 0.75s;
       --word-ease: cubic-bezier(0.22, 0.8, 0.2, 1);
 
-      /* --------------------------
+      /* =========================
          SERVICES
-      -------------------------- */
+      ========================= */
       --services-bg: #ece8e8;
       --services-text: #262626;
-
       --services-lead-size: clamp(18px, 1.8vw, 25px);
       --services-word-size: clamp(28px, 3vw, 44px);
       --services-copy-size: clamp(18px, 1.9vw, 24px);
-
       --services-word-slot-width: 510px;
       --services-button-size: 10px;
+
+      /* =========================
+         PROJECTS
+      ========================= */
+      --projects-bg: #f3efe8;
+      --projects-letter-color: #1f232a;
+      --projects-title-size: clamp(54px, 7vw, 110px);
+
+      /* moved slightly higher so it doesn't touch the house */
+      --projects-final-y: 3.8%;
+
+      --projects-p-x: 12%;
+      --projects-r-x: 22.8%;
+      --projects-o-x: 33.6%;
+      --projects-j-x: 44.4%;
+      --projects-e-x: 55.2%;
+      --projects-c-x: 66%;
+      --projects-t-x: 76.8%;
+      --projects-s-x: 87.6%;
+
+      /* letters start lower, rise with image */
+      --projects-top-start-y: 5%;
+      --projects-bottom-start-y: 80%;
+
+      --projects-cta-bottom: 4.5%;
+      --projects-cta-right: 3.2%;
     }
 
-    /* =========================
-       SCENES
-    ========================= */
+    .scroll-scene,
+    .services-scene,
+    .projects-scene {
+      position: relative;
+    }
 
     .scroll-scene {
-      position: relative;
       height: calc(var(--vh) * 100 * var(--hero-scene-multiplier));
     }
 
     .services-scene {
-      position: relative;
       height: calc(var(--vh) * 100 * var(--services-scene-multiplier));
       background: var(--services-bg);
+    }
+
+    .projects-scene {
+      height: calc(var(--vh) * 100 * var(--projects-scene-multiplier));
+      background: var(--projects-bg);
     }
 
     /* =========================
@@ -378,7 +405,117 @@
     }
 
     /* =========================
-       INTRO OVERLAY
+       PROJECTS
+    ========================= */
+
+    .projects-panel {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: calc(var(--vh) * 100);
+      overflow: clip;
+      isolation: isolate;
+      background: var(--projects-bg);
+    }
+
+    .projects-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: clip;
+    }
+
+    .projects-media-base,
+    .projects-media-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .projects-media-base { z-index: 1; }
+    .projects-media-overlay { z-index: 3; }
+
+    .projects-top-letter,
+    .projects-letter-r,
+    .projects-letter-o,
+    .projects-letter-e,
+    .projects-letter-t {
+      position: absolute;
+      font-size: var(--projects-title-size);
+      color: var(--projects-letter-color);
+      line-height: 0.9;
+      font-weight: 400;
+      text-transform: uppercase;
+      user-select: none;
+      pointer-events: none;
+      will-change: top;
+    }
+
+    /* top letters move with the picture, then stay fixed */
+    .projects-top-letter {
+      top: var(--projects-top-start-y);
+      z-index: 4;
+    }
+
+    .projects-letter-p { left: var(--projects-p-x); }
+    .projects-letter-j { left: var(--projects-j-x); }
+    .projects-letter-c { left: var(--projects-c-x); }
+    .projects-letter-s { left: var(--projects-s-x); }
+
+    /* bottom letters rise only after the image has reached the top */
+    .projects-letter-r,
+    .projects-letter-o,
+    .projects-letter-e,
+    .projects-letter-t {
+      top: var(--projects-bottom-start-y);
+    }
+
+    /* layer order:
+       image = 1
+       O and E = 2
+       overlay = 3
+       top letters + R and T = 4
+    */
+    .projects-letter-r { left: var(--projects-r-x); z-index: 4; }
+    .projects-letter-o { left: var(--projects-o-x); z-index: 2; }
+    .projects-letter-e { left: var(--projects-e-x); z-index: 2; }
+    .projects-letter-t { left: var(--projects-t-x); z-index: 4; }
+
+    .projects-see-more {
+      position: absolute;
+      right: var(--projects-cta-right);
+      bottom: var(--projects-cta-bottom);
+      z-index: 6;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 22px 13px 26px;
+      border-radius: 999px;
+      background: rgba(239, 233, 223, 0.85);
+      backdrop-filter: blur(4px);
+      text-decoration: none;
+      color: #5f5a50;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      line-height: 1;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .projects-see-more .arrow {
+      font-size: 22px;
+      letter-spacing: 0;
+      transform: translateY(-1px);
+      color: #6b6559;
+    }
+
+    /* =========================
+       INTRO
     ========================= */
 
     .intro {
@@ -449,9 +586,7 @@
       transform-origin: center;
       z-index: 204;
       opacity: 0;
-      transition:
-        height 0.45s ease,
-        opacity 0.25s ease;
+      transition: height 0.45s ease, opacity 0.25s ease;
     }
 
     .intro.open .slash-line {
@@ -501,6 +636,16 @@
         --slash-width: 1.8px;
         --slash-height: 34px;
         --slash-rotate: 22deg;
+
+        --projects-final-y: 4.6%;
+        --projects-p-x: 9%;
+        --projects-r-x: 20%;
+        --projects-o-x: 31%;
+        --projects-j-x: 42%;
+        --projects-e-x: 53%;
+        --projects-c-x: 64%;
+        --projects-t-x: 75%;
+        --projects-s-x: 86%;
       }
 
       .nav a {
@@ -532,6 +677,7 @@
 
         --hero-scene-multiplier: 2.35;
         --services-scene-multiplier: 2.05;
+        --projects-scene-multiplier: 2.15;
 
         --services-lead-size: clamp(16px, 4.3vw, 21px);
         --services-word-size: clamp(22px, 5.6vw, 30px);
@@ -548,6 +694,23 @@
         --slash-width: 1.5px;
         --slash-height: 26px;
         --slash-rotate: 23deg;
+
+        --projects-title-size: clamp(38px, 12vw, 62px);
+        --projects-final-y: 5.2%;
+        --projects-top-start-y: 20%;
+        --projects-bottom-start-y: 80%;
+
+        --projects-p-x: 5%;
+        --projects-r-x: 16.5%;
+        --projects-o-x: 28%;
+        --projects-j-x: 39.5%;
+        --projects-e-x: 51%;
+        --projects-c-x: 62.5%;
+        --projects-t-x: 74%;
+        --projects-s-x: 85.5%;
+
+        --projects-cta-bottom: 4.5%;
+        --projects-cta-right: 4%;
       }
 
       .topbar {
@@ -609,6 +772,17 @@
       .intro-logo-wrap {
         padding-inline: 18px;
       }
+
+      .projects-see-more {
+        padding: 11px 16px 11px 18px;
+        gap: 10px;
+        font-size: 9px;
+        letter-spacing: 0.18em;
+      }
+
+      .projects-see-more .arrow {
+        font-size: 18px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -623,6 +797,9 @@
         --slash-width: 1.4px;
         --slash-height: 22px;
         --slash-rotate: 22deg;
+
+        --projects-title-size: clamp(32px, 13vw, 48px);
+        --projects-final-y: 6%;
       }
 
       .intro-logo-wrap {
@@ -723,6 +900,45 @@
     </div>
   </section>
 
+  <!-- PROJECTS -->
+  <section class="projects-scene" id="projectsScene">
+    <div class="projects-panel">
+      <div class="projects-stage">
+
+        <img
+          src="assets/homepage/residential.png"
+          alt="Residential project"
+          class="projects-media-base"
+        >
+
+        <img
+          src="assets/homepage/residential-overlay-2.png"
+          alt=""
+          class="projects-media-overlay"
+          aria-hidden="true"
+        >
+
+        <!-- top letters -->
+        <span class="projects-top-letter projects-letter-p" id="projectsTopP">P</span>
+        <span class="projects-top-letter projects-letter-j" id="projectsTopJ">J</span>
+        <span class="projects-top-letter projects-letter-c" id="projectsTopC">C</span>
+        <span class="projects-top-letter projects-letter-s" id="projectsTopS">S</span>
+
+        <!-- bottom letters -->
+        <span class="projects-letter-r" id="projectsLetterR">R</span>
+        <span class="projects-letter-o" id="projectsLetterO">O</span>
+        <span class="projects-letter-e" id="projectsLetterE">E</span>
+        <span class="projects-letter-t" id="projectsLetterT">T</span>
+
+        <a href="#" class="projects-see-more">
+          <span>SEE MORE</span>
+          <span class="arrow">→</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
   <!-- INTRO -->
   <div class="intro" id="intro">
     <div class="panel panel-left"></div>
@@ -737,6 +953,7 @@
 
   <script>
     const root = document.documentElement;
+
     const scene = document.getElementById('scrollScene');
     const timelessSlot = document.getElementById('timelessSlot');
     const spatialSlot = document.getElementById('spatialSlot');
@@ -744,6 +961,17 @@
 
     const servicesScene = document.getElementById('servicesScene');
     const servicesWordSlot = document.getElementById('servicesWordSlot');
+
+    const projectsScene = document.getElementById('projectsScene');
+    const projectsTopP = document.getElementById('projectsTopP');
+    const projectsTopJ = document.getElementById('projectsTopJ');
+    const projectsTopC = document.getElementById('projectsTopC');
+    const projectsTopS = document.getElementById('projectsTopS');
+    const projectsLetterR = document.getElementById('projectsLetterR');
+    const projectsLetterO = document.getElementById('projectsLetterO');
+    const projectsLetterE = document.getElementById('projectsLetterE');
+    const projectsLetterT = document.getElementById('projectsLetterT');
+
     const intro = document.getElementById('intro');
 
     let resizeTimer;
@@ -757,6 +985,10 @@
       return Math.min(Math.max(value, min), max);
     }
 
+    function lerp(start, end, progress) {
+      return start + (end - start) * progress;
+    }
+
     function getSceneProgress(section) {
       const rect = section.getBoundingClientRect();
       const sectionHeight = section.offsetHeight;
@@ -766,9 +998,12 @@
       return passed / maxScroll;
     }
 
+    function getRootNumber(name) {
+      return parseFloat(getComputedStyle(root).getPropertyValue(name));
+    }
+
     function updateHeroWords() {
       const progress = getSceneProgress(scene);
-
       timelessSlot.classList.toggle('is-swapped', progress >= 0.18);
       spatialSlot.classList.toggle('is-swapped', progress >= 0.46);
       designSlot.classList.toggle('is-swapped', progress >= 0.74);
@@ -778,20 +1013,44 @@
       const progress = getSceneProgress(servicesScene);
 
       let step = 0;
-      if (progress >= 0.72) {
-        step = 3;
-      } else if (progress >= 0.48) {
-        step = 2;
-      } else if (progress >= 0.22) {
-        step = 1;
-      }
+      if (progress >= 0.72) step = 3;
+      else if (progress >= 0.48) step = 2;
+      else if (progress >= 0.22) step = 1;
 
       servicesWordSlot.style.setProperty('--service-step', step);
+    }
+
+    function updateProjectsScene() {
+      const progress = getSceneProgress(projectsScene);
+
+      /* image moves first */
+      const imagePhase = clamp(progress / 0.4, 0, 1);
+
+      /* bottom letters move only after image is already in place */
+      const lettersPhase = clamp((progress - 0.4) / 0.35, 0, 1);
+
+      const topStartY = getRootNumber('--projects-top-start-y');
+      const finalY = getRootNumber('--projects-final-y');
+      const currentTopY = lerp(topStartY, finalY, imagePhase);
+
+      projectsTopP.style.top = `${currentTopY}%`;
+      projectsTopJ.style.top = `${currentTopY}%`;
+      projectsTopC.style.top = `${currentTopY}%`;
+      projectsTopS.style.top = `${currentTopY}%`;
+
+      const bottomStartY = getRootNumber('--projects-bottom-start-y');
+      const currentBottomY = lerp(bottomStartY, finalY, lettersPhase);
+
+      projectsLetterR.style.top = `${currentBottomY}%`;
+      projectsLetterO.style.top = `${currentBottomY}%`;
+      projectsLetterE.style.top = `${currentBottomY}%`;
+      projectsLetterT.style.top = `${currentBottomY}%`;
     }
 
     function updateAllAnimations() {
       updateHeroWords();
       updateServicesWords();
+      updateProjectsScene();
     }
 
     function refreshLayout() {
