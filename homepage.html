@@ -15,15 +15,20 @@
 
     html, body {
       width: 100%;
+      min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
       background: #fff;
+      overflow-x: clip;
     }
 
     body {
-      overflow-x: hidden;
+      color: #181818;
     }
 
     :root {
+      /* viewport */
+      --vh: 1vh;
+
       /* --------------------------
          INTRO
       -------------------------- */
@@ -43,7 +48,7 @@
       -------------------------- */
       --nav-color: #2f2d77;
       --text-dark: #181818;
-      --text-light: rgba(255, 255, 255, 0.9);
+      --text-light: rgba(255, 255, 255, 0.92);
 
       --page-padding: clamp(22px, 2.4vw, 42px);
       --logo-width: clamp(180px, 15vw, 255px);
@@ -64,7 +69,9 @@
       --design-bottom: 10%;
       --design-right: 5.5%;
 
-      --scene-height: 320vh;
+      --hero-scene-multiplier: 2.6;
+      --services-scene-multiplier: 2.2;
+
       --word-duration: 0.75s;
       --word-ease: cubic-bezier(0.22, 0.8, 0.2, 1);
 
@@ -73,7 +80,6 @@
       -------------------------- */
       --services-bg: #ece8e8;
       --services-text: #262626;
-      --services-scene-height: 260vh;
 
       --services-lead-size: clamp(18px, 1.8vw, 25px);
       --services-word-size: clamp(28px, 3vw, 44px);
@@ -84,21 +90,30 @@
     }
 
     /* =========================
-       HERO
+       SCENES
     ========================= */
 
     .scroll-scene {
       position: relative;
-      height: var(--scene-height);
+      height: calc(var(--vh) * 100 * var(--hero-scene-multiplier));
     }
+
+    .services-scene {
+      position: relative;
+      height: calc(var(--vh) * 100 * var(--services-scene-multiplier));
+      background: var(--services-bg);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
 
     .hero {
       position: sticky;
       top: 0;
       width: 100%;
-      height: 100vh;
-      min-height: 760px;
-      overflow: hidden;
+      height: calc(var(--vh) * 100);
+      overflow: clip;
       isolation: isolate;
       background: #dbe8f5;
     }
@@ -111,6 +126,7 @@
       object-fit: cover;
       display: block;
       pointer-events: none;
+      user-select: none;
     }
 
     .hero-bg { z-index: 1; }
@@ -119,28 +135,36 @@
 
     .topbar {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset: 0 auto auto 0;
       width: 100%;
       padding: var(--page-padding);
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       z-index: 10;
+      gap: 20px;
+    }
+
+    .logo {
+      flex: 0 0 auto;
+      display: inline-block;
     }
 
     .logo img {
       width: var(--logo-width);
-      transform: translateY(-50px);
       height: auto;
       display: block;
+      transform: translateY(-50px);
     }
 
     .nav {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       gap: var(--nav-gap);
       padding-top: 10px;
+      flex-wrap: nowrap;
+      min-width: 0;
     }
 
     .nav a {
@@ -150,6 +174,7 @@
       font-size: var(--nav-size);
       letter-spacing: 0.34em;
       font-weight: 500;
+      white-space: nowrap;
     }
 
     .nav a.active {
@@ -168,6 +193,7 @@
       pointer-events: none;
       user-select: none;
       height: 0.95em;
+      max-width: 92vw;
     }
 
     .hero-text-slot .word {
@@ -223,20 +249,14 @@
        SERVICES
     ========================= */
 
-    .services-scene {
-      position: relative;
-      height: var(--services-scene-height);
-      background: var(--services-bg);
-    }
-
     .services-panel {
       position: sticky;
       top: 0;
-      min-height: 100vh;
+      height: calc(var(--vh) * 100);
       display: grid;
       place-items: center;
       background: var(--services-bg);
-      overflow: hidden;
+      overflow: clip;
     }
 
     .services-inner {
@@ -249,6 +269,7 @@
       justify-content: center;
       gap: 24px;
       text-align: center;
+      padding: clamp(28px, 4vw, 56px) 0;
     }
 
     .services-lead-wrap {
@@ -256,6 +277,7 @@
       flex-direction: column;
       align-items: center;
       gap: 10px;
+      max-width: 100%;
     }
 
     .services-lead {
@@ -263,6 +285,7 @@
       line-height: 1.4;
       letter-spacing: 0.003em;
       font-weight: 400;
+      text-wrap: balance;
     }
 
     .services-lead strong {
@@ -275,6 +298,7 @@
       justify-content: center;
       gap: 14px;
       flex-wrap: nowrap;
+      max-width: 100%;
     }
 
     .services-line-text {
@@ -283,6 +307,7 @@
       font-weight: 400;
       letter-spacing: 0.003em;
       white-space: nowrap;
+      flex: 0 0 auto;
     }
 
     .services-word-slot {
@@ -298,6 +323,7 @@
       text-align: left;
       justify-items: start;
       --service-step: 0;
+      flex: 0 0 auto;
     }
 
     .services-word-slot .service-word {
@@ -310,7 +336,7 @@
     }
 
     .inline-word {
-      width: var(--services-word-slot-width);
+      width: min(var(--services-word-slot-width), 70vw);
       font-size: var(--services-word-size);
     }
 
@@ -341,6 +367,7 @@
       letter-spacing: 0.28em;
       font-size: var(--services-button-size);
       line-height: 1;
+      white-space: nowrap;
     }
 
     .services-button-arrow {
@@ -502,13 +529,14 @@
         --spatial-left: 18%;
         --design-bottom: 13%;
         --design-right: 4%;
-        --scene-height: 280vh;
 
-        --services-scene-height: 230vh;
+        --hero-scene-multiplier: 2.35;
+        --services-scene-multiplier: 2.05;
+
         --services-lead-size: clamp(16px, 4.3vw, 21px);
         --services-word-size: clamp(22px, 5.6vw, 30px);
         --services-copy-size: clamp(16px, 4.2vw, 21px);
-        --services-word-slot-width: min(260px, 52vw);
+        --services-word-slot-width: 260px;
 
         --intro-logo-width: min(320px, 76vw);
         --left-top: 59.5%;
@@ -522,18 +550,20 @@
         --slash-rotate: 23deg;
       }
 
-      .hero {
-        min-height: 700px;
-      }
-
       .topbar {
         flex-direction: column;
         align-items: flex-start;
-        gap: 14px;
+        justify-content: flex-start;
+        gap: 12px;
+      }
+
+      .logo img {
+        transform: translateY(0);
       }
 
       .nav {
         flex-wrap: wrap;
+        justify-content: flex-start;
         gap: 10px 18px;
         padding-top: 0;
       }
@@ -555,6 +585,10 @@
 
       .services-line-text {
         white-space: normal;
+      }
+
+      .inline-word {
+        width: min(260px, 72vw);
       }
 
       .services-copy {
@@ -615,7 +649,7 @@
       </div>
 
       <img
-        src="assets/homepage/hero-overlay-1.svg"
+        src="assets/homepage/hero-overlay-1.png"
         alt=""
         class="hero-layer hero-overlay-1"
         aria-hidden="true"
@@ -702,6 +736,7 @@
   </div>
 
   <script>
+    const root = document.documentElement;
     const scene = document.getElementById('scrollScene');
     const timelessSlot = document.getElementById('timelessSlot');
     const spatialSlot = document.getElementById('spatialSlot');
@@ -709,18 +744,30 @@
 
     const servicesScene = document.getElementById('servicesScene');
     const servicesWordSlot = document.getElementById('servicesWordSlot');
-
     const intro = document.getElementById('intro');
+
+    let resizeTimer;
+
+    function setViewportHeight() {
+      const vh = window.innerHeight * 0.01;
+      root.style.setProperty('--vh', `${vh}px`);
+    }
 
     function clamp(value, min, max) {
       return Math.min(Math.max(value, min), max);
     }
 
-    function updateHeroWords() {
-      const rect = scene.getBoundingClientRect();
-      const maxScroll = scene.offsetHeight - window.innerHeight;
+    function getSceneProgress(section) {
+      const rect = section.getBoundingClientRect();
+      const sectionHeight = section.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      const maxScroll = Math.max(sectionHeight - viewportHeight, 1);
       const passed = clamp(-rect.top, 0, maxScroll);
-      const progress = maxScroll > 0 ? passed / maxScroll : 0;
+      return passed / maxScroll;
+    }
+
+    function updateHeroWords() {
+      const progress = getSceneProgress(scene);
 
       timelessSlot.classList.toggle('is-swapped', progress >= 0.18);
       spatialSlot.classList.toggle('is-swapped', progress >= 0.46);
@@ -728,13 +775,9 @@
     }
 
     function updateServicesWords() {
-      const rect = servicesScene.getBoundingClientRect();
-      const maxScroll = servicesScene.offsetHeight - window.innerHeight;
-      const passed = clamp(-rect.top, 0, maxScroll);
-      const progress = maxScroll > 0 ? passed / maxScroll : 0;
+      const progress = getSceneProgress(servicesScene);
 
       let step = 0;
-
       if (progress >= 0.72) {
         step = 3;
       } else if (progress >= 0.48) {
@@ -751,10 +794,17 @@
       updateServicesWords();
     }
 
-    /* intro timing */
+    function refreshLayout() {
+      setViewportHeight();
+      updateAllAnimations();
+    }
+
     window.addEventListener('load', () => {
-      document.documentElement.style.overflowX = 'hidden';
-      document.body.style.overflowX = 'hidden';
+      setViewportHeight();
+      updateAllAnimations();
+
+      document.documentElement.style.overflowX = 'clip';
+      document.body.style.overflowX = 'clip';
 
       setTimeout(() => {
         intro.classList.add('open');
@@ -766,15 +816,22 @@
 
       setTimeout(() => {
         intro.classList.add('hidden');
-        document.documentElement.style.overflowY = 'auto';
-        document.body.style.overflowY = 'auto';
       }, 3800);
-
-      updateAllAnimations();
     });
 
     window.addEventListener('scroll', updateAllAnimations, { passive: true });
-    window.addEventListener('resize', updateAllAnimations);
+
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      setViewportHeight();
+      updateAllAnimations();
+
+      resizeTimer = setTimeout(() => {
+        refreshLayout();
+      }, 80);
+    });
+
+    window.addEventListener('orientationchange', refreshLayout);
   </script>
 
 </body>
